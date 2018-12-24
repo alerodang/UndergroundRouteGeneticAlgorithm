@@ -21,9 +21,14 @@ class RouteGenerator:
         journeysDictionary = {}
 
         for _, row in self.__dataReader.getJourneys().iterrows():
-            if row['Origin'] not in journeysDictionary.keys():
-                journeysDictionary[row['Origin']] = {row['Destiny']: row['Duration']}
-            else:
-                journeysDictionary[row['Origin']].update({row['Destiny']: row['Duration']})
+
+            self.__update(journeysDictionary, row, 'Origin', 'Destiny')
+            self.__update(journeysDictionary, row, 'Destiny', 'Origin')
 
         return journeysDictionary
+
+    def __update(self, journeysDictionary, row, origin, destiny):
+        if row[origin] not in journeysDictionary.keys():
+            journeysDictionary[row[origin]] = {row[destiny]: row['Duration']}
+        else:
+            journeysDictionary[row[origin]].update({row[destiny]: row['Duration']})
