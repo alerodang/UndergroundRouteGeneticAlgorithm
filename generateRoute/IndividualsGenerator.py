@@ -6,55 +6,55 @@ from geneticalAlgorithm.Individual import Individual
 class IndividualsGenerator:
 
     def __init__(self, dataReader):
-        self.dataReader = dataReader
-        self.journeysDictionary = self.generateJourneyDictionary()
-        self.visitedStations = []
+        self.__dataReader = dataReader
+        self.__journeysDictionary = self.__generateJourneyDictionary()
+        self.__visitedStations = []
 
     def generateIndividual(self, origin, destiny):
-        route, fitnessValue = self.generateIndividualRecursively(origin, destiny)
+        route, fitnessValue = self.__generateIndividual(origin, destiny)
         return Individual(route, fitnessValue)
 
-    def generateIndividualRecursively(self, currentStation, destiny):
+    def __generateIndividual(self, currentStation, destiny):
 
-        self.visitedStations.append(currentStation)
+        self.__visitedStations.append(currentStation)
 
         if currentStation == destiny:
-            self.visitedStations = []
+            self.__visitedStations = []
             return [currentStation], 0
 
-        nextStations = self.expand(currentStation)
+        nextStations = self.__expand(currentStation)
 
         while nextStations:
             station = random.choice(nextStations)
             nextStations.remove(station)
 
-            if station in self.visitedStations:
+            if station in self.__visitedStations:
                 continue
 
-            newRoute, fitnessValue = self.generateIndividualRecursively(station, destiny)
+            newRoute, fitnessValue = self.__generateIndividual(station, destiny)
 
             if newRoute:
-                return [currentStation] + newRoute, fitnessValue + self.journeysDictionary[currentStation][newRoute[0]]
+                return [currentStation] + newRoute, fitnessValue + self.__journeysDictionary[currentStation][newRoute[0]]
 
         return [], 0
 
-    def expand(self, origin):
+    def __expand(self, origin):
         nexStations = []
-        [nexStations.append(station) for station in self.journeysDictionary[origin].keys()]
+        [nexStations.append(station) for station in self.__journeysDictionary[origin].keys()]
         return nexStations
 
-    def generateJourneyDictionary(self):
+    def __generateJourneyDictionary(self):
 
         journeysDictionary = {}
 
-        for _, row in self.dataReader.getJourneys().iterrows():
+        for _, row in self.__dataReader.getJourneys().iterrows():
 
-            self.update(journeysDictionary, row, 'Origin', 'Destiny')
-            self.update(journeysDictionary, row, 'Destiny', 'Origin')
+            self.__update(journeysDictionary, row, 'Origin', 'Destiny')
+            self.__update(journeysDictionary, row, 'Destiny', 'Origin')
 
         return journeysDictionary
 
-    def update(self, journeysDictionary, row, origin, destiny):
+    def __update(self, journeysDictionary, row, origin, destiny):
         if row[origin] not in journeysDictionary.keys():
             journeysDictionary[row[origin]] = {row[destiny]: row['Duration']}
         else:
