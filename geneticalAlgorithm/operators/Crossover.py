@@ -24,6 +24,7 @@ def crossover(pairs):
 
     return list(map(lambda x: Individual(x), offspring))
 
+
 def repairChromosome(chromosome):
 
     firstRepeatedAllele = -1

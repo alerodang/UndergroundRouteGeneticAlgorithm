@@ -21,7 +21,7 @@ class Mutator:
 
     def __mutateIndividual(self, individual):
         firstStation, secondStation = random.sample(individual.genes[1:-1], 2)
-        subroute = self.individualsGenerator.generateRoute(firstStation, secondStation)
+        subroute = self.individualsGenerator.generateChromosome(firstStation, secondStation)
 
         firstStationIndex = individual.genes.index(firstStation)
         secondStationIndex = individual.genes.index(secondStation)

@@ -13,6 +13,6 @@ class Evaluator:
         fitnessValue = 0
 
         for i in range(0, len(individual.genes) - 1):
-            fitnessValue += self.__journeys[individual.genes[i]][individual.genes[i + 1]]
+            fitnessValue -= self.__journeys[individual.genes[i]][individual.genes[i + 1]]
 
         return fitnessValue

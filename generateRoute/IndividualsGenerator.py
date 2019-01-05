@@ -9,23 +9,23 @@ class IndividualsGenerator:
         self.__dataReader = dataReader
         self.__journeys = self.__generateJourneyDictionary()
         self.__visitedStations = []
+        self.__lines = self.__generateLinesDictionary()
 
-    def generateIndividual(self, origin, destiny):
-        route = self.generateRoute(origin, destiny)
-        return Individual(route)
+    def generateIndividual(self, originId, destinyId):
+        return Individual(self.generateChromosome(originId, destinyId))
 
     def getJourneys(self):
         return self.__journeys
 
-    def generateRoute(self, currentStation, destiny):
+    def generateChromosome(self, currentStationId, destinyId):
 
-        self.__visitedStations.append(currentStation)
+        self.__visitedStations.append(currentStationId)
 
-        if currentStation == destiny:
+        if currentStationId == destinyId:
             self.__visitedStations = []
-            return [currentStation]
+            return [currentStationId]
 
-        nextStations = self.__expand(currentStation)
+        nextStations = self.__expand(currentStationId)
 
         while nextStations:
             station = random.choice(nextStations)
@@ -34,10 +34,10 @@ class IndividualsGenerator:
             if station in self.__visitedStations:
                 continue
 
-            newRoute = self.generateRoute(station, destiny)
+            newRoute = self.generateChromosome(station, destinyId)
 
             if newRoute:
-                return [currentStation] + newRoute
+                return [currentStationId] + newRoute
 
         return []
 
@@ -62,4 +62,17 @@ class IndividualsGenerator:
             journeysDictionary[row[origin]] = {row[destiny]: row['Duration']}
         else:
             journeysDictionary[row[origin]].update({row[destiny]: row['Duration']})
+
+    def __generateLinesDictionary(self):
+
+        linesDictionary = {}
+
+        for _, row in self.__dataReader.getLines().iterrows():
+            if row[0] not in linesDictionary.keys():
+                linesDictionary[row[0]] = {"Outward": list(row[1:])}
+                line = list(row[1:])
+                line.reverse()
+                linesDictionary[row[0]].update({"Return": line})
+
+        return linesDictionary
 

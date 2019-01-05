@@ -34,6 +34,6 @@ def __tournamentSelection(population):
     selection = []
 
     while len(selection) < newParentsAmount:
-        selection.append(min(random.sample(population.individuals, 3), key=lambda x: x.fitnessValue))
+        selection.append(max(random.sample(population.individuals, 3), key=lambda x: x.fitnessValue))
 
     return selection
