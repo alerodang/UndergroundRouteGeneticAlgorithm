@@ -7,7 +7,7 @@ class IndividualsGenerator:
 
     def __init__(self, dataReader):
         self.__dataReader = dataReader
-        self.__journeysDictionary = self.__generateJourneyDictionary()
+        self.__journeys = self.__generateJourneyDictionary()
         self.__visitedStations = []
 
     def generateIndividual(self, origin, destiny):
@@ -34,13 +34,13 @@ class IndividualsGenerator:
             newRoute, fitnessValue = self.__generateIndividual(station, destiny)
 
             if newRoute:
-                return [currentStation] + newRoute, fitnessValue + self.__journeysDictionary[currentStation][newRoute[0]]
+                return [currentStation] + newRoute, fitnessValue + self.__journeys[currentStation][newRoute[0]]
 
         return [], 0
 
     def __expand(self, origin):
         nexStations = []
-        [nexStations.append(station) for station in self.__journeysDictionary[origin].keys()]
+        [nexStations.append(station) for station in self.__journeys[origin].keys()]
         return nexStations
 
     def __generateJourneyDictionary(self):

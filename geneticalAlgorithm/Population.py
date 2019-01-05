@@ -1,3 +1,5 @@
+from parameters import populationSize
+
 class Population:
 
     def __init__(self, origin, destiny, individualGenerator):
@@ -6,7 +8,7 @@ class Population:
 
     def generateIndividuals(self, origin, destiny):
         individuals = []
-        while len(individuals) < 5:
+        while len(individuals) < populationSize:
             individual = self.__individualGenerator.generateIndividual(origin, destiny)
             if individual in individuals:
                 continue
