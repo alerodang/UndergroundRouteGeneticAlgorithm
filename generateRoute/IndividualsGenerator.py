@@ -11,16 +11,19 @@ class IndividualsGenerator:
         self.__visitedStations = []
 
     def generateIndividual(self, origin, destiny):
-        route, fitnessValue = self.__generateIndividual(origin, destiny)
-        return Individual(route, fitnessValue)
+        route = self.generateRoute(origin, destiny)
+        return Individual(route)
 
-    def __generateIndividual(self, currentStation, destiny):
+    def getJourneys(self):
+        return self.__journeys
+
+    def generateRoute(self, currentStation, destiny):
 
         self.__visitedStations.append(currentStation)
 
         if currentStation == destiny:
             self.__visitedStations = []
-            return [currentStation], 0
+            return [currentStation]
 
         nextStations = self.__expand(currentStation)
 
@@ -31,12 +34,12 @@ class IndividualsGenerator:
             if station in self.__visitedStations:
                 continue
 
-            newRoute, fitnessValue = self.__generateIndividual(station, destiny)
+            newRoute = self.generateRoute(station, destiny)
 
             if newRoute:
-                return [currentStation] + newRoute, fitnessValue + self.__journeys[currentStation][newRoute[0]]
+                return [currentStation] + newRoute
 
-        return [], 0
+        return []
 
     def __expand(self, origin):
         nexStations = []
@@ -59,3 +62,4 @@ class IndividualsGenerator:
             journeysDictionary[row[origin]] = {row[destiny]: row['Duration']}
         else:
             journeysDictionary[row[origin]].update({row[destiny]: row['Duration']})
+

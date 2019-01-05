@@ -15,3 +15,6 @@ class Population:
             individuals.append(individual)
 
         return individuals
+
+    def update(self, evaluatedIndividuals):
+        self.individuals = sorted(self.individuals + evaluatedIndividuals, key=lambda x: x.fitnessValue)[0:populationSize]

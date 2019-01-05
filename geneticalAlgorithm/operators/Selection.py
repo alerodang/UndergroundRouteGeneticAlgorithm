@@ -9,24 +9,24 @@ def selection(population):
     return pairs
 
 
-def __selectKParents(population):
-    selection = []
-
-    fitnessValueSum = 0
-    for individual in population.individuals:
-        fitnessValueSum += individual.fitnessValue
-
-    while len(selection) < newParentsAmount:
-
-        randomValue = random.uniform(0, fitnessValueSum)
-
-        for i in range(0, len(population.individuals)):
-            randomValue -= population.individuals[i].fitnessValue
-            if randomValue < 0:
-                selection.append(population.individuals[i])
-                break
-
-    return selection
+#def __selectKParents(population):
+#    selection = []
+#
+#    fitnessValueSum = 0
+#    for individual in population.individuals:
+#        fitnessValueSum += individual.fitnessValue
+#
+#    while len(selection) < newParentsAmount:
+#
+#        randomValue = random.uniform(0, fitnessValueSum)
+#
+#        for i in range(0, len(population.individuals)):
+#            randomValue -= population.individuals[i].fitnessValue
+#            if randomValue < 0:
+#                selection.append(population.individuals[i])
+#                break
+#
+#    return selection
 
 
 def __tournamentSelection(population):

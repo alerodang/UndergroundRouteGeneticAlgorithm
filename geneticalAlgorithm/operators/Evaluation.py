@@ -3,9 +3,9 @@ class Evaluator:
     def __init__(self, journeys):
         self.__journeys = journeys
 
-    def evaluate(self, population):
+    def evaluate(self, individuals):
 
-        for individual in population.individuals:
+        for individual in individuals:
             individual.fitnessValue = self.evaluateIndividual(individual)
 
     def evaluateIndividual(self, individual):

@@ -1,5 +1,8 @@
 import random
 
+from geneticalAlgorithm.Individual import Individual
+
+
 def crossover(pairs):
 
     offspring = []
@@ -19,7 +22,7 @@ def crossover(pairs):
         offspring.append(repairChromosome(firstParent.genes[0:firstParentIndex] + secondParent.genes[secondParentIndex:]))
         offspring.append(repairChromosome(secondParent.genes[0:secondParentIndex] + firstParent.genes[firstParentIndex:]))
 
-    return offspring
+    return list(map(lambda x: Individual(x), offspring))
 
 def repairChromosome(chromosome):
 
