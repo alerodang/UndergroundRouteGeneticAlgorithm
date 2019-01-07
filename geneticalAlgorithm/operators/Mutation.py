@@ -20,12 +20,11 @@ class Mutator:
         return mutatedIndividuals
 
     def __mutateIndividual(self, individual):
-        firstStation, secondStation = random.sample(individual.genes[1:-1], 2)
-        subroute = self.individualsGenerator.generateChromosome(firstStation, secondStation)
+        firstGen, secondGen = random.sample(individual.chromosome[1:-1], 2)
+        subChromosome = self.individualsGenerator.generateChromosome(firstGen.stationId, secondGen.stationId)
 
-        firstStationIndex = individual.genes.index(firstStation)
-        secondStationIndex = individual.genes.index(secondStation)
+        firstGenIndex = individual.chromosome.index(firstGen)
+        secondGenIndex = individual.chromosome.index(secondGen)
 
-        route = individual.genes[0:firstStationIndex] + subroute + individual.genes[secondStationIndex + 1:]
-        individual.setGenes(repairChromosome(route))
-
+        chromosome = individual.chromosome[0:firstGenIndex] + subChromosome + individual.chromosome[secondGenIndex + 1:]
+        individual.setChromosome(repairChromosome(chromosome))
