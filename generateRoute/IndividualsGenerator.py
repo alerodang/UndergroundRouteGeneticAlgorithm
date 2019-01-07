@@ -1,5 +1,6 @@
 import random
 
+from generateRoute.Gen import Gen
 from geneticalAlgorithm.Individual import Individual
 
 
@@ -9,13 +10,15 @@ class IndividualsGenerator:
         self.__dataReader = dataReader
         self.__journeys = self.__generateJourneyDictionary()
         self.__visitedStations = []
-        self.__lines = self.__generateLinesDictionary()
-
-    def generateIndividual(self, originId, destinyId):
-        return Individual(self.generateChromosome(originId, destinyId))
+        self.lines = self.__generateLinesDictionary()
 
     def getJourneys(self):
         return self.__journeys
+
+    def generateIndividual(self, originId, destinyId):
+        individual = Individual(self.generateChromosome(originId, destinyId))
+        #individual.chromosome[-1].line = self.__selectRandomLine(individual.chromosome[-2].stationId, individual.chromosome[-1].stationId)
+        return individual
 
     def generateChromosome(self, currentStationId, destinyId):
 
@@ -23,21 +26,23 @@ class IndividualsGenerator:
 
         if currentStationId == destinyId:
             self.__visitedStations = []
-            return [currentStationId]
+            return [Gen(currentStationId)]
 
-        nextStations = self.__expand(currentStationId)
+        nextStationIds = self.__expand(currentStationId)
 
-        while nextStations:
-            station = random.choice(nextStations)
-            nextStations.remove(station)
+        while nextStationIds:
+            stationId = random.choice(nextStationIds)
+            nextStationIds.remove(stationId)
 
-            if station in self.__visitedStations:
+            if stationId in self.__visitedStations:
                 continue
 
-            newRoute = self.generateChromosome(station, destinyId)
+            newRoute = self.generateChromosome(stationId, destinyId)
 
             if newRoute:
-                return [currentStationId] + newRoute
+                route = [Gen(currentStationId, self.__selectRandomLine(currentStationId, newRoute[0].stationId))] + newRoute
+                route[1].line = route[0].line
+                return route
 
         return []
 
@@ -76,3 +81,14 @@ class IndividualsGenerator:
 
         return linesDictionary
 
+    def __selectRandomLine(self, firstStation, secondStation):
+
+        possibleLines = []
+
+        for key in self.lines.keys():
+            for i in range(0, len(self.lines[key]['Outward']) - 2):
+                if [firstStation, secondStation] == self.lines[key]['Outward'][i:i + 2] or [firstStation, secondStation] == self.lines[key]['Return'][i:i + 2]:
+                    possibleLines.append(key)
+                    break
+
+        return random.choice(possibleLines)
