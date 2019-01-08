@@ -25,3 +25,8 @@ class DataReader:
         lines = pd.read_excel(excelFile, 'Líneas y Trayectos Líneas', header=None)
         lines = lines.iloc[0:lines.shape[0], 0:12]
         return lines
+
+    def getTimeTables(self):
+        excelFile = pd.ExcelFile(self.dataPath)
+        timeTables = pd.read_excel(excelFile, 'Horarios Líneas')
+        return timeTables
