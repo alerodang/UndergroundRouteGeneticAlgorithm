@@ -2,18 +2,16 @@ import random
 
 from geneticalAlgorithm.Gen import Gen
 from geneticalAlgorithm.Individual import Individual
+from getData.DataTransformer import generateJourneyDictionary, generateLinesDictionary
 
 
 class IndividualsGenerator:
 
     def __init__(self, dataReader):
         self.__dataReader = dataReader
-        self.__journeys = self.__generateJourneyDictionary()
+        self.journeys = generateJourneyDictionary(dataReader)
         self.__visitedStations = []
-        self.lines = self.__generateLinesDictionary()
-
-    def getJourneys(self):
-        return self.__journeys
+        self.lines = generateLinesDictionary(dataReader)
 
     def generateIndividual(self, originId, destinyId):
         individual = Individual(self.generateChromosome(originId, destinyId))
@@ -47,38 +45,8 @@ class IndividualsGenerator:
 
     def __expand(self, origin):
         nexStations = []
-        [nexStations.append(station) for station in self.__journeys[origin].keys()]
+        [nexStations.append(station) for station in self.journeys[origin].keys()]
         return nexStations
-
-    def __generateJourneyDictionary(self):
-
-        journeysDictionary = {}
-
-        for _, row in self.__dataReader.getJourneys().iterrows():
-
-            self.__update(journeysDictionary, row, 'Origin', 'Destiny')
-            self.__update(journeysDictionary, row, 'Destiny', 'Origin')
-
-        return journeysDictionary
-
-    def __update(self, journeysDictionary, row, origin, destiny):
-        if row[origin] not in journeysDictionary.keys():
-            journeysDictionary[row[origin]] = {row[destiny]: row['Duration']}
-        else:
-            journeysDictionary[row[origin]].update({row[destiny]: row['Duration']})
-
-    def __generateLinesDictionary(self):
-
-        linesDictionary = {}
-
-        for _, row in self.__dataReader.getLines().iterrows():
-            if row[0] not in linesDictionary.keys():
-                linesDictionary[row[0]] = {"Outward": list(row[1:])}
-                line = list(row[1:])
-                line.reverse()
-                linesDictionary[row[0]].update({"Return": line})
-
-        return linesDictionary
 
     def __selectRandomLine(self, firstStation, secondStation):
 

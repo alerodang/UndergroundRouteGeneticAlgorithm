@@ -30,5 +30,4 @@ class Evaluator:
 
             currentLine = nextLine
 
-
         return fitnessValue
