@@ -1,4 +1,5 @@
 from getData.DataReader import DataReader
+from getData.DataTransformer import generateJourneyDictionary, generateLinesDictionary
 
 
 class TransferManager:
@@ -7,8 +8,8 @@ class TransferManager:
 
         self.tripInitialTime = tripInitialTime
         self.__dataReader = DataReader('data/Datos_AGs_Buscardor_de_Rutas_v0.xlsx')
-        self.__journeys = self.__generateJourneyDictionary()
-        self.__lines = self.__generateLinesDictionary()
+        self.__journeys = generateJourneyDictionary(self.__dataReader)
+        self.__lines = generateLinesDictionary(self.__dataReader)
         self.__timeTable = self.__dataReader.getTimeTables()
 
     def calculateTimeToArrival(self, originStationId, destinyStationId, line, currentTime):
@@ -39,33 +40,5 @@ class TransferManager:
                 return "Outward"
 
         return "Return"
-
-    def __generateJourneyDictionary(self):
-        journeysDictionary = {}
-
-        for _, row in self.__dataReader.getJourneys().iterrows():
-            self.__update(journeysDictionary, row, 'Origin', 'Destiny')
-            self.__update(journeysDictionary, row, 'Destiny', 'Origin')
-
-        return journeysDictionary
-
-    def __update(self, journeysDictionary, row, origin, destiny):
-        if row[origin] not in journeysDictionary.keys():
-            journeysDictionary[row[origin]] = {row[destiny]: row['Duration']}
-        else:
-            journeysDictionary[row[origin]].update({row[destiny]: row['Duration']})
-
-    def __generateLinesDictionary(self):
-
-        linesDictionary = {}
-
-        for _, row in self.__dataReader.getLines().iterrows():
-            if row[0] not in linesDictionary.keys():
-                linesDictionary[row[0]] = {"Outward": list(row[1:])}
-                line = list(row[1:])
-                line.reverse()
-                linesDictionary[row[0]].update({"Return": line})
-
-        return linesDictionary
 
 
