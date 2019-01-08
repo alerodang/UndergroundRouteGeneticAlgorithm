@@ -9,8 +9,8 @@ from geneticalAlgorithm.operators.Evaluation import Evaluator
 
 
 generator = IndividualsGenerator(DataReader('data/Datos_AGs_Buscardor_de_Rutas_v0.xlsx'))
-population = Population(10, 50, generator)
-evaluator = Evaluator(generator.journeys, TransferManager(100))
+population = Population(50, 64, generator)
+evaluator = Evaluator(generator.journeys, TransferManager(1380))
 mutator = Mutator(generator)
 evaluator.evaluate(population.individuals)
 
@@ -24,7 +24,7 @@ def printPopulation():
     print("\n")
 
 
-for i in range(0, 10):
+for i in range(0, 100):
     printPopulation()
     pairs = selection(population)
     offsprings = crossover(pairs)

@@ -2,7 +2,7 @@ from enum import Enum
 
 populationSize = 5
 newParentsAmount = 2
-mutationProbability = 0.3
+mutationProbability = 0.4
 
 
 class DIRECTION(Enum):
