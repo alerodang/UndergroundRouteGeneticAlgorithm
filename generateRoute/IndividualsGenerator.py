@@ -3,6 +3,7 @@ import random
 from geneticalAlgorithm.Gen import Gen
 from geneticalAlgorithm.Individual import Individual
 from getData.DataTransformer import generateJourneyDictionary, generateLinesDictionary
+from parameters import DIRECTION
 
 
 class IndividualsGenerator:
@@ -53,8 +54,8 @@ class IndividualsGenerator:
         possibleLines = []
 
         for key in self.lines.keys():
-            for i in range(0, len(self.lines[key]['Outward']) - 2):
-                if [firstStation, secondStation] == self.lines[key]['Outward'][i:i + 2] or [firstStation, secondStation] == self.lines[key]['Return'][i:i + 2]:
+            for i in range(0, len(self.lines[key][DIRECTION.OUTWARD.value]) - 2):
+                if [firstStation, secondStation] == self.lines[key][DIRECTION.OUTWARD.value][i:i + 2] or [firstStation, secondStation] == self.lines[key][DIRECTION.RETURN.value][i:i + 2]:
                     possibleLines.append(key)
                     break
 

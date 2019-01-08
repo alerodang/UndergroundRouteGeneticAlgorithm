@@ -1,4 +1,5 @@
 import pandas as pd
+from parameters import ROUTE
 
 
 class DataReader:
@@ -10,7 +11,7 @@ class DataReader:
         excelFile = pd.ExcelFile(self.dataPath)
         journeys = pd.read_excel(excelFile, 'Arcos Trayectos')
         journeys = journeys.iloc[1:journeys.shape[0], 1:4]
-        journeys.columns = ['Origin', 'Destiny', 'Duration']
+        journeys.columns = [ROUTE.ORIGIN.value, ROUTE.DESTINY.value, 'Duration']
         return journeys
 
     def getLines(self):

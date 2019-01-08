@@ -1,4 +1,5 @@
 from generateRoute.IndividualsGenerator import IndividualsGenerator
+from generateRoute.TransferManager import TransferManager
 from geneticalAlgorithm.operators.Mutation import Mutator
 from getData.DataReader import DataReader
 from geneticalAlgorithm.Population import Population
@@ -8,12 +9,23 @@ from geneticalAlgorithm.operators.Evaluation import Evaluator
 
 
 generator = IndividualsGenerator(DataReader('data/Datos_AGs_Buscardor_de_Rutas_v0.xlsx'))
-population = Population(262, 332, generator)
-evaluator = Evaluator(generator.getJourneys())
+population = Population(10, 50, generator)
+evaluator = Evaluator(generator.journeys, TransferManager(100))
 mutator = Mutator(generator)
 evaluator.evaluate(population.individuals)
 
+def printPopulation():
+    global individual, route, gen
+    for individual in population.individuals:
+        route = ""
+        for gen in individual.chromosome:
+            route += str(gen.stationId) + "[" + gen.line + "] "
+        print(route, "->", individual.fitnessValue)
+    print("\n")
+
+
 for i in range(0, 10):
+    printPopulation()
     pairs = selection(population)
     offsprings = crossover(pairs)
     mutatedIndividuals = mutator.mutate(offsprings)
@@ -21,7 +33,6 @@ for i in range(0, 10):
     population.update(mutatedIndividuals)
 
 
-    #print(min(list(map(lambda x: x.fitnessValue, population.individuals))))
-    for individual in population.individuals:
-        print(individual.genes, "->", individual.fitnessValue)
-    print("\n")
+
+
+

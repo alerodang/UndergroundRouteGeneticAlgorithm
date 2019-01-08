@@ -1,5 +1,7 @@
 from getData.DataReader import DataReader
 from getData.DataTransformer import generateJourneyDictionary, generateLinesDictionary
+from parameters import DIRECTION
+import math
 
 
 class TransferManager:
@@ -11,6 +13,15 @@ class TransferManager:
         self.__journeys = generateJourneyDictionary(self.__dataReader)
         self.__lines = generateLinesDictionary(self.__dataReader)
         self.__timeTable = self.__dataReader.getTimeTables()
+
+    #def calculateFoo(self, originStationId, destinyStationId, line):
+    #    direction = self.__calculateTrainDirection(originStationId, destinyStationId, line)
+    #    trainTimeToStation = self.__calculateTrainTimeToStation(originStationId, line, direction)
+    #    currentTime = self.tripInitialTime - trainTimeToStation
+    #    for time in self.__dataReader.getTimeTables()[line + " " + direction].values:
+    #        if time >= currentTime - trainTimeToStation:
+    #            return time - currentTime + trainTimeToStation
+
 
     def calculateTimeToArrival(self, originStationId, destinyStationId, line, currentTime):
 
@@ -26,7 +37,7 @@ class TransferManager:
 
         for i in range(0, len(self.__lines[line][direction]) - 1):
 
-            if originStationId == self.__lines[line][direction][i]:
+            if math.isnan(self.__lines[line][direction][i]) or originStationId == self.__lines[line][direction][i]:
                 break
 
             trainTimeToStation += self.__journeys[self.__lines[line][direction][i]][self.__lines[line][direction][i+1]]
@@ -35,10 +46,10 @@ class TransferManager:
 
     def __calculateTrainDirection(self, originStationId, destinyStationId, line):
 
-        for i in range(0, len(self.__lines[line]["Outward"]) - 2):
-            if [originStationId, destinyStationId] == self.__lines[line]["Outward"][i:i+2]:
-                return "Outward"
+        for i in range(0, len(self.__lines[line][DIRECTION.OUTWARD.value]) - 2):
+            if [originStationId, destinyStationId] == self.__lines[line][DIRECTION.OUTWARD.value][i:i+2]:
+                return DIRECTION.OUTWARD.value
 
-        return "Return"
+        return DIRECTION.RETURN.value
 
 
