@@ -13,13 +13,6 @@ class DataReader:
         journeys.columns = ['Origin', 'Destiny', 'Duration']
         return journeys
 
-    def getTimeTables(  self):
-        excelFile = pd.ExcelFile(self.dataPath)
-        timeTables = pd.read_excel(excelFile, 'Horarios Líneas (en cabecera)')
-        timeTables = timeTables.iloc[1:timeTables.shape[0], 1:4]
-        timeTables.columns = ['Origin', 'Destiny', 'Duration']
-        return timeTables
-
     def getLines(self):
         excelFile = pd.ExcelFile(self.dataPath)
         lines = pd.read_excel(excelFile, 'Líneas y Trayectos Líneas', header=None)
