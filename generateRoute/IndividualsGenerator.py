@@ -1,6 +1,6 @@
 import random
 
-from generateRoute.Gen import Gen
+from geneticalAlgorithm.Gen import Gen
 from geneticalAlgorithm.Individual import Individual
 
 
@@ -17,7 +17,6 @@ class IndividualsGenerator:
 
     def generateIndividual(self, originId, destinyId):
         individual = Individual(self.generateChromosome(originId, destinyId))
-        #individual.chromosome[-1].line = self.__selectRandomLine(individual.chromosome[-2].stationId, individual.chromosome[-1].stationId)
         return individual
 
     def generateChromosome(self, currentStationId, destinyId):
