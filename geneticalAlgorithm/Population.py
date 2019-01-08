@@ -9,7 +9,7 @@ class Population:
 
     def generateIndividuals(self, origin, destiny):
         individuals = []
-        while len(individuals) <= populationSize:
+        while len(individuals) < populationSize:
             individual = self.__individualGenerator.generateIndividual(origin, destiny)
             individuals.append(individual)
 
