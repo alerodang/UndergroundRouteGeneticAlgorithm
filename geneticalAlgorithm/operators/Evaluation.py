@@ -11,8 +11,11 @@ class Evaluator:
 
     def evaluateIndividual(self, individual):
 
-        fitnessValue = 0
         currentLine = individual.chromosome[0].line
+        fitnessValue = -self.__transferManager.calculateTimeToArrival(individual.chromosome[0].stationId,
+                                                                     individual.chromosome[1].stationId,
+                                                                     currentLine,
+                                                                     self.__transferManager.tripInitialTime)
 
         for i in range(0, len(individual.chromosome) - 1):
             originStationId = individual.chromosome[i].stationId
