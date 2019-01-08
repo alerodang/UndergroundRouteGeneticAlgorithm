@@ -1,4 +1,4 @@
-from parameters import populationSize
+from configuration.hiperparameters import populationSize
 
 
 class Population:

@@ -1,5 +1,5 @@
 import random
-from parameters import newParentsAmount
+from configuration.hiperparameters import newParentsAmount
 
 
 def selection(population):

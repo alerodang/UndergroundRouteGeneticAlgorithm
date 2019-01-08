@@ -1,4 +1,4 @@
-from parameters import DIRECTION, ROUTE
+from configuration.hiperparameters import DIRECTION, ROUTE
 
 
 def generateJourneyDictionary(dataReader):

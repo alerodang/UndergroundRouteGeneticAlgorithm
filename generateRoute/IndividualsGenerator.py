@@ -3,7 +3,7 @@ import random
 from geneticalAlgorithm.Gen import Gen
 from geneticalAlgorithm.Individual import Individual
 from getData.DataTransformer import generateJourneyDictionary, generateLinesDictionary
-from parameters import DIRECTION
+from configuration.hiperparameters import DIRECTION
 
 
 class IndividualsGenerator:

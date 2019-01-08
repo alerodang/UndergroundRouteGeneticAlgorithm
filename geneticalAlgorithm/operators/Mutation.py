@@ -1,5 +1,5 @@
 import random
-from parameters import mutationProbability
+from configuration.hiperparameters import mutationProbability
 from geneticalAlgorithm.operators.Crossover import repairChromosome
 
 

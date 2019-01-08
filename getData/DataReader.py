@@ -1,5 +1,5 @@
 import pandas as pd
-from parameters import ROUTE
+from configuration.hiperparameters import ROUTE
 
 
 class DataReader:

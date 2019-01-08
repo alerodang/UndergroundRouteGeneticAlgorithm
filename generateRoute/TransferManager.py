@@ -1,6 +1,6 @@
 from getData.DataReader import DataReader
 from getData.DataTransformer import generateJourneyDictionary, generateLinesDictionary
-from parameters import DIRECTION
+from configuration.hiperparameters import DIRECTION
 import math
 
 
