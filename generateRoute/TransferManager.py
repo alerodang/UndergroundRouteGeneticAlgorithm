@@ -14,22 +14,19 @@ class TransferManager:
         self.__lines = generateLinesDictionary(self.__dataReader)
         self.__timeTable = self.__dataReader.getTimeTables()
 
-    #def calculateFoo(self, originStationId, destinyStationId, line):
-    #    direction = self.__calculateTrainDirection(originStationId, destinyStationId, line)
-    #    trainTimeToStation = self.__calculateTrainTimeToStation(originStationId, line, direction)
-    #    currentTime = self.tripInitialTime - trainTimeToStation
-    #    for time in self.__dataReader.getTimeTables()[line + " " + direction].values:
-    #        if time >= currentTime - trainTimeToStation:
-    #            return time - currentTime + trainTimeToStation
-
-
     def calculateTimeToArrival(self, originStationId, destinyStationId, line, currentTime):
 
         direction = self.__calculateTrainDirection(originStationId, destinyStationId, line)
         trainTimeToStation = self.__calculateTrainTimeToStation(originStationId, line, direction)
         for time in self.__dataReader.getTimeTables()[line + " " + direction].values:
+
+            if math.isnan(time):
+                return 1440 - currentTime + self.__dataReader.getTimeTables()[line + " " + direction][0] + trainTimeToStation
+
             if time >= currentTime - trainTimeToStation:
                 return time - currentTime + trainTimeToStation
+
+        return 1440 - currentTime + self.__dataReader.getTimeTables()[line + " " + direction][-1] + trainTimeToStation
 
     def __calculateTrainTimeToStation(self, originStationId, line, direction):
 
