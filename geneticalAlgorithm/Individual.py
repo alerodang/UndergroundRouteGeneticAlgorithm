@@ -1,11 +1,11 @@
 class Individual:
 
-    def __init__(self, genes, fitnessValue=0):
-        self.genes = genes
+    def __init__(self, chromosome, fitnessValue=0):
+        self.chromosome = chromosome
         self.fitnessValue = fitnessValue
 
     def __eq__(self, other):
-        return self.genes == other.genes
+        return self.chromosome == other.chromosome
 
-    def setGenes(self, genes):
-        self.genes = genes
+    def setChromosome(self, chromosome):
+        self.chromosome = chromosome
