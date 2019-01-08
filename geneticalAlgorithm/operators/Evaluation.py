@@ -23,7 +23,7 @@ class Evaluator:
             nextLine = individual.chromosome[i + 1].line
 
             if currentLine != nextLine:
-                currentTime = fitnessValue + self.__transferManager.tripInitialTime
+                currentTime = (-fitnessValue + self.__transferManager.tripInitialTime) % 1440
                 fitnessValue -= self.__transferManager.calculateTimeToArrival(originStationId,
                                                                               destinyStationId,
                                                                               nextLine,
